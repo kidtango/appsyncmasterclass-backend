@@ -4,14 +4,19 @@ service: appsync-master-class
 
 frameworkVersion: '2'
 
+plugins:
+  - serverless-appsync-plugin
+
 custom:
-  tableName: 'users-table-${self:provider.stage}'
+  appSync:
+    - ${file(serverless.appsync-api.yml)}
 
 provider:
   name: aws
-  runtime: nodejs14.x
-  lambdaHashingVersion: '20201221'
+  runtime: nodejs12.x
   stage: dev
-functions:
-  api:
-    handler: handler.handler
+
+package:
+  exclude:
+    - package.json
+    - package-lock.json
